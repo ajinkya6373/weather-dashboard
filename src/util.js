@@ -1,3 +1,5 @@
+export const BASE_URL = "https://api.openweathermap.org"
+
 export const calculateVisibilityStatus=(visibilityMeters)=>{
     const visibilityKilometers = visibilityMeters / 1000;
     let status = "";

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PressureChart = ({ pressure=1000}) => {
-  const [chartData, setChartData] = useState({
+  const chartData ={
     labels: ["Pressure"],
     datasets: [
       {
@@ -13,10 +12,10 @@ const PressureChart = ({ pressure=1000}) => {
         borderWidth: 1,
       },
     ],
-  });
+  };
 
 
-  const [chartOptions, setChartOptions] = useState({
+  const chartOptions= {
     plugins: {
       legend: {
         display: false,
@@ -31,7 +30,7 @@ const PressureChart = ({ pressure=1000}) => {
     circumference: 180,
     rotation: 270,
     cutout: '60%',
-  });
+  };
 
   return (
     <div className="relative">

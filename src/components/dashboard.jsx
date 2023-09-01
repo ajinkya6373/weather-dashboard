@@ -1,4 +1,3 @@
-import SearchIcon from "@mui/icons-material/Search";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import Card from "./card";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
@@ -7,6 +6,7 @@ import PressureChart from "./pressureChart";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
+  BASE_URL,
   calculateFeelsLikeStatus,
   calculateHumidityStatus,
   calculateVisibilityStatus,
@@ -14,6 +14,7 @@ import {
 } from "../util";
 import { useDebounce } from "../hooks";
 import LocationSearch from "./search";
+import { toast } from "react-hot-toast";
 
 export default function Dashboard() {
   const [cityName, setCityName] = useState("pune");
@@ -27,19 +28,22 @@ export default function Dashboard() {
   const API_KEY = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     (async () => {
-      try {
-        const {
-          data: [{ lat, lon, name, state }],
-          status,
-        } = await axios.get(
-          `https://api.openweathermap.org/geo/1.0/direct?q=${debouncedCityName}&appid=${API_KEY}`
-        );
-        if (status === 200) {
-          setCoordinates({ lat, lon });
-          setLocation({ name, state });
+      if(debouncedCityName.length>0){
+        try {
+          const {
+            data: [{ lat, lon, name, state }],
+            status,
+          } = await axios.get(
+            `${BASE_URL}/geo/1.0/direct?q=${debouncedCityName}&appid=${API_KEY}`
+          );
+          if (status === 200) {
+            setCoordinates({ lat, lon });
+            setLocation({ name, state });
+          }
+        } catch (error) {
+          toast.error("City not found...")
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     })();
   }, [debouncedCityName]);
@@ -49,7 +53,7 @@ export default function Dashboard() {
       if (coordinates.lat && coordinates.lon) {
         try {
           const { data, status } = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${API_KEY}&units=metric`
+            `${BASE_URL}/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${API_KEY}&units=metric`
           );
           if (status) {
             setWeatherData(data);
