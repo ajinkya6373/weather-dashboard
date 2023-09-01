@@ -32,7 +32,7 @@ export default function Dashboard() {
           data: [{ lat, lon, name, state }],
           status,
         } = await axios.get(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${debouncedCityName}&appid=${API_KEY}`
+          `https://api.openweathermap.org/geo/1.0/direct?q=${debouncedCityName}&appid=${API_KEY}`
         );
         if (status === 200) {
           setCoordinates({ lat, lon });
