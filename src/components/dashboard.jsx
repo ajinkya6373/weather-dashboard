@@ -74,7 +74,6 @@ export default function Dashboard() {
     weatherData.sys?.sunrise,
     weatherData.sys?.sunset
   );
-  console.log(location);
   return (
     <div className="flex w-[90%] ">
       <div className="bg-[#ffffff] w-[20%] p-[1.5rem] rounded-tl-[2rem] rounded-bl-[2rem]">
